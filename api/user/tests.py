@@ -9,16 +9,16 @@ class BaseViewTest(APITestCase):
     client = APIClient()
 
     @staticmethod
-    def create_song(email="", password="", first_name="", last_name=""):
+    def create_user(email="", password="", first_name="", last_name=""):
         if email != "" and password != "" and first_name != "" and last_name != "":
             User.objects.create(email=email, password=password, first_name=first_name, last_name=last_name)
 
     def setUp(self):
         # add test data
-        self.create_song("example@test.com", "test123", "Example", "Test")
-        self.create_song("example1@test.com", "test1231", "Example1", "Test1")
-        self.create_song("example2@test.com", "test1232", "Example2", "Test2")
-        self.create_song("example3@test.com", "test1233", "Example3", "Test3")
+        self.create_user("example@test.com", "test123", "Example", "Test")
+        self.create_user("example1@test.com", "test1231", "Example1", "Test1")
+        self.create_user("example2@test.com", "test1232", "Example2", "Test2")
+        self.create_user("example3@test.com", "test1233", "Example3", "Test3")
 
 
 class GetAllUsersTest(BaseViewTest):

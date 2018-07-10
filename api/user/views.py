@@ -77,4 +77,4 @@ def authorize(request, version):
     if not (token and jwt.validate(token)):
         return Response(status=status.HTTP_401_UNAUTHORIZED)
 
-    return Response(status=status.HTTP_202_ACCEPTED)
+    return Response(status=status.HTTP_200_OK)
