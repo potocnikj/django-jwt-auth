@@ -62,6 +62,6 @@ class UserService:
         user = User.objects.get(email=email)
 
         if not user or (user.password != password):
-            return False
+            return None
 
         return self.__jwt.create(serializers.serialize('json', [user]))

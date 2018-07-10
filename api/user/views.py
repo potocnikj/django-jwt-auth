@@ -64,5 +64,8 @@ def authenticate(request, version):
     response = dict()
     response['token'] = service.authenticate(request.data['email'], request.data['password'])
 
+    if not response['token']:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+
     return Response(response)
 
