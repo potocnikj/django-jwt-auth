@@ -7,6 +7,7 @@ from django.conf import settings
 from .models import User
 from django.core import serializers
 
+
 class JwtService:
     """
     JwtService generates JWT tokens for purposes of authorization. It creates a header and injects

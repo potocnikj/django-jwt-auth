@@ -4,10 +4,11 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import User
-from .services import UserService
+from .services import UserService, JwtService
 from .serializers import UserSerializer
 
 service = UserService()
+jwt = JwtService()
 
 
 @api_view(['GET', 'POST'])
@@ -69,3 +70,11 @@ def authenticate(request, version):
 
     return Response(response)
 
+
+@api_view(['GET'])
+def authorize(request, version):
+    token = request.META.get('HTTP_ACCESS_TOKEN')
+    if not (token and jwt.validate(token)):
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+    return Response(status=status.HTTP_202_ACCEPTED)
