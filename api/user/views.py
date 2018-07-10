@@ -4,7 +4,7 @@ from .models import User
 from .serializers import UserSerializer
 
 
-class ListUsersView(generics.ListAPIView):
+class GetUsers(generics.ListAPIView):
     """
     Provides a get method handler.
     """
