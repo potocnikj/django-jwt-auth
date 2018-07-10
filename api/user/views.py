@@ -1,8 +1,13 @@
+import json
+
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import User
+from .services import UserService
 from .serializers import UserSerializer
+
+service = UserService()
 
 
 @api_view(['GET', 'POST'])
@@ -47,3 +52,17 @@ def user(request, id, version):
 
     else:
         return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+
+@api_view(['POST'])
+def authenticate(request, version):
+    if request.method != 'POST':
+        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+    if not request.data['email'] and request.data['password']:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+    response = dict()
+    response['token'] = service.authenticate(request.data['email'], request.data['password'])
+
+    return Response(response)
+

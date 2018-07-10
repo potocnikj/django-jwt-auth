@@ -4,7 +4,8 @@ import base64
 import time
 import json
 from django.conf import settings
-
+from .models import User
+from django.core import serializers
 
 class JwtService:
     """
@@ -51,3 +52,16 @@ class JwtService:
             digestmod=hashlib.sha256).digest()
 
         return header.decode() + '.' + payload.decode() + '.' + base64.b64encode(signature).decode()
+
+
+class UserService:
+    def __init__(self):
+        self.__jwt = JwtService()
+
+    def authenticate(self, email, password):
+        user = User.objects.get(email=email)
+
+        if not user or (user.password != password):
+            return False
+
+        return self.__jwt.create(serializers.serialize('json', [user]))
