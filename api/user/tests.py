@@ -23,14 +23,14 @@ class BaseViewTest(APITestCase):
 
 class GetAllUsersTest(BaseViewTest):
 
-    def test_get_all_songs(self):
+    def test_get_all_users(self):
         """
         This test ensures that all users added in the setUp method
         exist when we make a GET request to the users/ endpoint
         """
         # hit the API endpoint
         response = self.client.get(
-            reverse("users-all", kwargs={"version": "v1"})
+            reverse("users", kwargs={"version": "v1"})
         )
         # fetch the data from db
         expected = User.objects.all()
