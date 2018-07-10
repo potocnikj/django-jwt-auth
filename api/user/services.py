@@ -56,6 +56,12 @@ class JwtService:
 
 
 class UserService:
+    """
+    UserService contains all the logic for a user.
+
+    @authenticate: Accepts credentials, validates them and generates an access token if valid.
+
+    """
     def __init__(self):
         self.__jwt = JwtService()
 
