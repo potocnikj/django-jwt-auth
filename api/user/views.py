@@ -1,15 +1,17 @@
 from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, renderer_classes
 from rest_framework.response import Response
 from .models import User
 from .services import UserService, JwtService
 from .serializers import UserSerializer
+from rest_framework.renderers import JSONRenderer
 
 service = UserService()
 jwt = JwtService()
 
 
 @api_view(['GET', 'POST'])
+@renderer_classes((JSONRenderer,))
 def users(request, version):
     if request.method == 'GET':
         serializer = UserSerializer(User.objects.all(), many=True)
@@ -28,6 +30,7 @@ def users(request, version):
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
+@renderer_classes((JSONRenderer,))
 def user(request, id, version):
     try:
         user = User.objects.get(user_id=id)
@@ -54,6 +57,7 @@ def user(request, id, version):
 
 
 @api_view(['POST'])
+@renderer_classes((JSONRenderer,))
 def authenticate(request, version):
     if request.method != 'POST':
         return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
@@ -70,6 +74,7 @@ def authenticate(request, version):
 
 
 @api_view(['GET'])
+@renderer_classes((JSONRenderer,))
 def authorize(request, version):
     token = request.META.get('HTTP_ACCESS_TOKEN')
     if not (token and jwt.validate(token)):
